@@ -1,0 +1,11 @@
+# Dependencies and caches (never committed; the export in dist/ is)
+node_modules/
+web/node_modules/
+.vite/
+web/.vite/
+
+# Worker scratch space, deleted before submission
+test/scratch/
+
+# OS noise
+.DS_Store

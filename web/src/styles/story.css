@@ -1,0 +1,286 @@
+/* Styles for the story HTML extracted from the upstream chapter pages.
+   Everything is scoped under .scene-body so the reader chrome is unaffected. */
+.scene-body {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  overflow-wrap: break-word;
+}
+.scene-body > * + * {
+  margin-block-start: 1.1em;
+}
+.scene-body p {
+  margin: 0;
+}
+.scene-body p + p {
+  margin-block-start: 1.1em;
+}
+.scene-body em,
+.scene-body i {
+  font-style: italic;
+}
+.scene-body b,
+.scene-body strong {
+  font-weight: 600;
+  color: var(--color-text-strong);
+}
+.scene-body center {
+  text-align: center;
+}
+.scene-body h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  margin-block: 1.4em 0.6em;
+}
+.scene-body ul,
+.scene-body ol {
+  padding-inline-start: 1.4em;
+  margin: 0;
+}
+.scene-body li + li {
+  margin-block-start: 0.35em;
+}
+.scene-body blockquote {
+  margin: 0;
+  padding: var(--space-3) var(--space-5);
+  border-inline-start: 2px solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  background: oklch(1 0 0 / 0.025);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.scene-body blockquote p + p {
+  margin-block-start: 0.8em;
+}
+.scene-body hr {
+  border: 0;
+  height: 1px;
+  background: var(--color-border);
+  margin-block: 1.5em;
+}
+.scene-body pre,
+.scene-body code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.scene-body pre {
+  padding: var(--space-4);
+  overflow-x: auto;
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  line-height: 1.5;
+}
+.scene-body code {
+  padding: 0.1em 0.35em;
+  background: oklch(1 0 0 / 0.07);
+  border-radius: var(--radius-sm);
+}
+.scene-body pre code {
+  padding: 0;
+  background: none;
+}
+.scene-body sup,
+.scene-body sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+.scene-body img,
+.scene-body svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+.scene-body svg {
+  outline: 1px solid oklch(1 0 0 / 0.1);
+  outline-offset: 0;
+  border-radius: var(--radius-sm);
+  background: oklch(0.2 0.03 268);
+}
+/* Inline SVGs embedded in the prose keep the author's fixed pixel sizes on desktop
+   and shrink on phones. Left-nudged illustrations in the source drop the nudge. */
+.scene-body svg[style*='margin-left'] {
+  margin-inline-start: auto !important;
+}
+/* Speaker colours are inline oklch(0.7 0.15 h) spans from the source; leave them. */
+
+/* Tables outside device screens (rare) */
+.scene-body table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95em;
+}
+.scene-body th,
+.scene-body td {
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--color-border);
+  text-align: start;
+  vertical-align: top;
+}
+.scene-body th {
+  color: var(--color-text-strong);
+  font-weight: 600;
+  background: var(--color-bg-surface);
+}
+
+/* Fictional device screens ------------------------------------------ */
+.scene-body .device-view {
+  display: block;
+  margin: 1.4em auto;
+  padding: var(--space-4);
+  max-width: 100%;
+  overflow-x: auto;
+  background: var(--color-device-bg);
+  color: var(--color-device-ink);
+  border: 1px solid var(--color-device-border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  line-height: 1.45;
+  text-align: center;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.scene-body .device-view > * + * {
+  margin-block-start: 0.9em;
+}
+.scene-body .wide-device-view {
+  max-width: 100%;
+}
+.scene-body .narrow-device-view {
+  max-width: 22rem;
+}
+.scene-body .device-view-left {
+  text-align: start;
+  margin-inline-start: 0;
+}
+.scene-body .device-view p,
+.scene-body .device-view li {
+  color: var(--dv-ink, var(--color-device-ink));
+}
+.scene-body .device-view ul,
+.scene-body .device-view ol {
+  padding-inline-start: 1.2em;
+  text-align: start;
+}
+.scene-body .device-view h3 {
+  font-family: inherit;
+  font-size: 1.15em;
+  margin: 0 0 0.8em;
+  padding-block-end: 0.5em;
+  border-block-end: 2px solid var(--color-device-border);
+  color: var(--color-device-head);
+}
+.scene-body .device-view table {
+  width: 100%;
+  margin-inline: auto;
+  text-align: start;
+  font-size: inherit;
+}
+.scene-body .device-view-left table {
+  margin-inline-start: 0;
+}
+.scene-body .device-view th,
+.scene-body .device-view td {
+  padding: 0.55em 0.7em;
+  border: 1px solid var(--color-device-border);
+  color: var(--color-device-ink);
+  background: none;
+  vertical-align: middle;
+}
+.scene-body .device-view th {
+  color: var(--color-device-head);
+  font-weight: 700;
+  background: var(--color-device-row-alt);
+}
+.scene-body .device-view tbody tr:nth-child(odd) {
+  background: var(--color-device-row);
+}
+.scene-body .device-view tbody tr:nth-child(even) {
+  background: var(--color-device-row-alt);
+}
+.scene-body .device-view svg,
+.scene-body .device-view img {
+  display: block;
+  margin-inline: auto;
+  outline: 0;
+  background: none;
+  border-radius: 0;
+}
+.scene-body .device-view-left svg,
+.scene-body .device-view-left img {
+  margin-inline-start: 0;
+}
+.scene-body .device-view hr {
+  background: var(--color-device-border);
+}
+/* Decorative controls drawn on the fictional screens (never interactive) */
+.scene-body .dv-button {
+  display: inline-block;
+  padding: 0.45em 1.3em;
+  border: 1px solid var(--color-device-border);
+  border-radius: var(--radius-sm);
+  background: oklch(0.24 0.07 262);
+  color: var(--color-device-head);
+  font-family: inherit;
+  font-size: 1em;
+  line-height: 1.3;
+  user-select: none;
+}
+.scene-body .dv-range {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin-block: 0.9em;
+  border-radius: var(--radius-pill);
+  background: var(--color-device-border);
+}
+.scene-body .dv-range-thumb {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 56%;
+  width: 14px;
+  height: 14px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--color-device-ink);
+  box-shadow: 0 0 0 2px var(--color-device-bg);
+}
+
+/* Handwritten Dzegoban letters */
+.scene-body .dz-card {
+  background: oklch(0.24 0.03 230);
+  color: #e6f4ff;
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-5);
+  margin-block: 1.4em;
+  box-shadow: var(--shadow-ring);
+}
+.scene-body .dz-card .dz-title {
+  font-weight: 700;
+  margin-block-end: 0.8em;
+}
+.scene-body .dz-card.dz-mono {
+  font-family: var(--font-mono);
+}
+
+/* The single blinking terminal prompt in the source */
+@keyframes blinker {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 40rem) {
+  .scene-body .narrow-device-view {
+    max-width: 100%;
+  }
+  .scene-body .device-view {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+  }
+}

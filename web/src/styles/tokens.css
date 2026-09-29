@@ -1,0 +1,113 @@
+/* Design tokens for Snowmoon Flow. Primitives are named by hue, semantics by role.
+   Components reference only the semantic tier. Documented in /DESIGN.md. */
+:root {
+  color-scheme: dark;
+
+  /* Primitives: one cool night ramp, one warm snow/paper ramp, one moon accent ramp */
+  --night-950: oklch(0.13 0.03 268);
+  --night-900: oklch(0.17 0.035 268);
+  --night-800: oklch(0.21 0.035 268);
+  --night-700: oklch(0.26 0.035 268);
+  --night-600: oklch(0.34 0.035 268);
+  --night-500: oklch(0.46 0.03 268);
+
+  --snow-300: oklch(0.68 0.02 260);
+  --snow-200: oklch(0.79 0.015 260);
+  --snow-100: oklch(0.9 0.01 90);
+  --snow-50: oklch(0.96 0.008 90);
+
+  --moon-300: oklch(0.8 0.07 92);
+  --moon-200: oklch(0.87 0.08 92);
+  --moon-100: oklch(0.93 0.06 92);
+
+  /* Semantic: surfaces */
+  --color-bg: var(--night-950);
+  --color-bg-surface: var(--night-900);
+  --color-bg-raised: var(--night-800);
+  --color-bg-hover: var(--night-700);
+  --color-border: var(--night-600);
+  --color-border-strong: var(--night-500);
+
+  /* Semantic: text */
+  --color-text: var(--snow-100);
+  --color-text-strong: var(--snow-50);
+  --color-text-secondary: var(--snow-200);
+  --color-text-muted: var(--snow-300);
+
+  /* Semantic: accent (moonlight). One filled action per view uses --color-accent-solid. */
+  --color-accent: var(--moon-200);
+  --color-accent-solid: var(--moon-200);
+  --color-accent-hover: var(--moon-100);
+  --color-on-accent: var(--night-950);
+  --color-focus: var(--moon-100);
+  --color-progress: var(--moon-300);
+
+  /* Semantic: the story's fictional device screens */
+  --color-device-bg: oklch(0.15 0.05 272);
+  --color-device-border: oklch(0.36 0.08 262);
+  --color-device-ink: oklch(0.8 0.09 245);
+  --color-device-head: oklch(0.9 0.05 240);
+  --color-device-row: oklch(0.19 0.05 270);
+  --color-device-row-alt: oklch(0.22 0.05 270);
+
+  /* Type */
+  --font-body: 'EB Garamond', Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --font-mono: 'Courier New', Courier, ui-monospace, Menlo, monospace;
+
+  --text-caption: 0.8125rem;
+  --text-label: 0.875rem;
+  --text-ui: 1rem;
+  --text-body: 1.125rem;
+  --text-lead: 1.25rem;
+  --text-h3: 1.375rem;
+  --text-h2: 1.75rem;
+  --text-h1: 2.5rem;
+  --text-display: clamp(3.25rem, 14vw, 6rem);
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-body: 1.6;
+
+  --tracking-caps: 0.14em;
+
+  /* Space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Shape */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --measure: 38rem;
+  --page-pad: clamp(1rem, 4vw, 2rem);
+  --bar-height: 3.5rem;
+
+  /* Depth */
+  --shadow-1: 0 1px 2px oklch(0 0 0 / 0.35), 0 8px 24px oklch(0 0 0 / 0.35);
+  --shadow-ring: 0 0 0 1px oklch(1 0 0 / 0.06);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 600ms;
+}
+
+html[data-text-size='s'] {
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+}
+html[data-text-size='l'] {
+  --text-body: 1.3125rem;
+  --text-lead: 1.5rem;
+}

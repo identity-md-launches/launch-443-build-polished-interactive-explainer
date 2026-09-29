@@ -1,0 +1,573 @@
+/* Layout shell -------------------------------------------------------- */
+.app {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.snowfall {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.app > main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: var(--space-6) var(--page-pad) var(--space-8);
+  padding-inline: max(var(--page-pad), env(safe-area-inset-left)) max(var(--page-pad), env(safe-area-inset-right));
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.screen-center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: calc(100dvh - var(--bar-height));
+}
+.screen-wide {
+  max-width: 64rem;
+}
+
+.stack > * + * {
+  margin-block-start: var(--space-4);
+}
+.stack-lg > * + * {
+  margin-block-start: var(--space-6);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+.actions-start {
+  justify-content: flex-start;
+}
+
+.lede {
+  font-size: var(--text-lead);
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+.muted {
+  color: var(--color-text-muted);
+}
+
+/* Enter animation: opt-in only when the user allows motion */
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: rise var(--duration-slow) var(--ease-out) both;
+  }
+  .enter-2 {
+    animation-delay: 100ms;
+  }
+  .enter-3 {
+    animation-delay: 200ms;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+}
+
+/* Title screen -------------------------------------------------------- */
+.title-moon {
+  width: clamp(7rem, 28vw, 11rem);
+  height: auto;
+  margin-block-end: var(--space-5);
+  filter: drop-shadow(0 0 40px oklch(0.9 0.06 92 / 0.35));
+}
+.title-name {
+  font-size: var(--text-display);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.title-by {
+  margin-block-start: var(--space-3);
+  font-size: var(--text-lead);
+  color: var(--color-text-secondary);
+}
+.title-meta {
+  margin-block-start: var(--space-2);
+}
+.title-actions {
+  margin-block-start: var(--space-7);
+}
+.title-foot {
+  margin-block-start: var(--space-8);
+  font-size: var(--text-label);
+  color: var(--color-text-muted);
+  text-wrap: pretty;
+}
+
+/* Reader bar (sticky) -------------------------------------------------- */
+.reader-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: oklch(0.13 0.03 268 / 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-block-end: 1px solid oklch(1 0 0 / 0.06);
+}
+.reader-bar-inner {
+  max-width: 64rem;
+  margin-inline: auto;
+  min-height: var(--bar-height);
+  padding-inline: max(var(--page-pad), env(safe-area-inset-left)) max(var(--page-pad), env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.reader-bar-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.reader-bar-night {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-lead);
+  color: var(--color-text-strong);
+}
+.reader-bar-place {
+  font-size: var(--text-label);
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.reader-bar-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+/* On phones the place name would truncate to a sliver; the night header repeats it anyway. */
+@media (max-width: 40rem) {
+  .reader-bar-place {
+    display: none;
+  }
+}
+/* At 320px the scene dots and the Display label no longer fit beside "Night N";
+   the moon phase and the visually hidden "Scene x of y" text keep the information. */
+@media (max-width: 24rem) {
+  .reader-bar-tools .scene-dots {
+    display: none;
+  }
+  .settings > summary > span {
+    display: none;
+  }
+  .settings > summary {
+    padding-inline: var(--space-3);
+  }
+}
+.progress {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px;
+  height: 3px;
+  background: oklch(1 0 0 / 0.08);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--color-progress);
+  transition: width var(--duration-base) var(--ease-out);
+}
+.scene-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.scene-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+.scene-dots i.on {
+  background: var(--color-progress);
+}
+
+/* Settings disclosure in the bar */
+.settings {
+  position: relative;
+}
+.settings > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.settings > summary::-webkit-details-marker {
+  display: none;
+}
+.settings-panel {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: calc(100% + var(--space-2));
+  width: min(20rem, calc(100vw - 2 * var(--page-pad)));
+  padding: var(--space-4);
+  background: var(--color-bg-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1), var(--shadow-ring);
+  display: grid;
+  gap: var(--space-4);
+}
+.settings-panel fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.settings-panel legend {
+  padding: 0;
+  margin-block-end: var(--space-2);
+}
+.seg {
+  display: flex;
+  gap: var(--space-2);
+}
+.seg label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-ui);
+}
+.seg label:has(input:checked) {
+  background: var(--color-accent-solid);
+  border-color: transparent;
+  color: var(--color-on-accent);
+  font-weight: 600;
+}
+.seg label:has(input:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.seg input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 2.5rem;
+  cursor: pointer;
+}
+.check input {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--color-accent-solid);
+  margin: 0;
+}
+
+/* Night header + scenes --------------------------------------------- */
+.night {
+  padding-block-start: var(--space-6);
+}
+.night-head {
+  text-align: center;
+  margin-block-end: var(--space-7);
+}
+.night-head .eyebrow {
+  display: block;
+  margin-block-end: var(--space-3);
+}
+.night-title {
+  font-size: var(--text-h1);
+  font-weight: 500;
+}
+.night-dateline {
+  margin-block-start: var(--space-3);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.scene + .scene {
+  margin-block-start: var(--space-7);
+}
+.scene-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  margin-block-end: var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-wrap: unset;
+}
+.scene-heading::before {
+  content: '';
+  flex: 0 0 2rem;
+  height: 1px;
+  background: var(--color-border-strong);
+  align-self: center;
+}
+.scene-heading .scene-dateline {
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: italic;
+  font-size: var(--text-label);
+  color: var(--color-text-secondary);
+}
+.scene-aside {
+  margin-block-end: var(--space-5);
+  padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--color-progress);
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.recap {
+  margin-block-start: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  box-shadow: var(--shadow-ring);
+}
+.recap > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-text-secondary);
+  font-size: var(--text-ui);
+  border-radius: var(--radius-md);
+}
+.recap > summary::-webkit-details-marker {
+  display: none;
+}
+.recap > summary::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-inline-end: 1.5px solid currentColor;
+  border-block-end: 1.5px solid currentColor;
+  rotate: -45deg;
+  translate: 0 -1px;
+  transition: rotate var(--duration-fast) var(--ease-out);
+  flex: none;
+}
+.recap[open] > summary::before {
+  rotate: 45deg;
+}
+@media (hover: hover) {
+  .recap > summary:hover {
+    color: var(--color-text-strong);
+  }
+}
+.recap-body {
+  padding: 0 var(--space-4) var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: calc(var(--text-body) * 0.94);
+  text-wrap: pretty;
+}
+
+.night-actions {
+  margin-block-start: var(--space-7);
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--color-border);
+  display: grid;
+  gap: var(--space-4);
+  justify-items: center;
+  text-align: center;
+}
+.beat-prompt {
+  font-style: italic;
+  color: var(--color-text-secondary);
+  text-wrap: balance;
+}
+.beat-options {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 30rem;
+}
+.beat-options .btn {
+  width: 100%;
+  min-height: 3rem;
+  white-space: normal;
+  text-align: center;
+  padding-block: var(--space-2);
+}
+.night-foot {
+  margin-block-start: var(--space-7);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: space-between;
+}
+
+.status {
+  padding: var(--space-8) 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* Night complete / finale ------------------------------------------- */
+.card {
+  width: 100%;
+  padding: var(--space-6) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: oklch(0.17 0.035 268 / 0.85);
+  box-shadow: var(--shadow-1), var(--shadow-ring);
+  text-align: start;
+}
+.card + .card {
+  margin-block-start: var(--space-5);
+}
+.night-end-title {
+  font-size: var(--text-display);
+  font-weight: 500;
+  line-height: 1;
+}
+.night-end-sub {
+  margin-block-start: var(--space-3);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-label);
+}
+
+/* Nights menu --------------------------------------------------------- */
+.nights-grid {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-6) 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-3);
+}
+.night-card {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  min-height: 6rem;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  box-shadow: var(--shadow-ring);
+  color: inherit;
+  text-decoration: none;
+  transition-property: background-color, scale;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-out);
+}
+.night-card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  .night-card:hover {
+    background: var(--color-bg-raised);
+  }
+}
+.night-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.night-card-num {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text-strong);
+  line-height: 1;
+}
+.night-card-place {
+  color: var(--color-text-secondary);
+}
+.night-card-date {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: var(--text-label);
+}
+.night-card-state {
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.night-card.is-current {
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
+}
+.night-card.is-current .night-card-state {
+  color: var(--color-accent);
+}
+.night-card.is-done .night-card-state {
+  color: var(--color-text-secondary);
+}
+
+/* Top bar for secondary screens */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-block-end: var(--space-5);
+}
+
+/* About page prose */
+.prose > * + * {
+  margin-block-start: var(--space-4);
+}
+.prose h2 {
+  margin-block-start: var(--space-6);
+  font-size: var(--text-h3);
+}
+.prose ul {
+  padding-inline-start: 1.25em;
+}
+.prose li + li {
+  margin-block-start: var(--space-2);
+}
+blockquote.declaration {
+  margin: 0;
+  padding: var(--space-4) var(--space-5);
+  border-inline-start: 2px solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+}
+blockquote.declaration p + p {
+  margin-block-start: var(--space-3);
+}
